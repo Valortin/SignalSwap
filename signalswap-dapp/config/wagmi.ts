@@ -1,4 +1,3 @@
-// config/wagmi.ts
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 import { polygon } from 'wagmi/chains'; // or any chain(s) you want; don't leave empty
 
@@ -10,7 +9,7 @@ if (!projectId) {
 }
 
 export default getDefaultConfig({
-  appName: 'Neuraz',
+  appName: 'signalswap',
   projectId,
   chains: [polygon],   // ← must include at least one chain
   ssr: true,           // prevents hydration mismatches in Next.js

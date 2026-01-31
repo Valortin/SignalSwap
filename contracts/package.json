@@ -1,7 +1,7 @@
 {
   "name": "contracts",
   "version": "1.0.0",
-  "description": "Neuraz Contracts",
+  "description": "signalswap Contracts",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
