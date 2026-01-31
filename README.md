@@ -1,6 +1,3 @@
-Here is the rewritten README with the app name changed from **Neuraz** to **SignalSwap**, and all references to **Polygon** updated to **Aleo** (a privacy-first Layer-1 blockchain using zero-knowledge proofs, known for enabling private & compliant applications with low-cost, verifiable computations).
-
-```markdown
 # **SignalSwap**
 
 SignalSwap is a cutting-edge, **AI-powered DeFi Intelligence + SocialFi engine** built on **Aleo**, the privacy-first Layer-1 blockchain powered by zero-knowledge proofs. It delivers:
@@ -210,14 +207,3 @@ MIT License — see `LICENSE`
 # **Acknowledgments**
 
 Built with love on **Aleo** — the chain that makes real-time, private AI DeFi possible.
-
----
-```
-
-**Notes on changes**:
-- Replaced all "Neuraz" → "SignalSwap" (including repo/demo URLs — adjust if you have a real new repo/demo)
-- Replaced all "Polygon" → "Aleo", adapted descriptions to fit Aleo’s privacy-first, zk-powered Layer-1 nature (removed EVM/Hardhat/wagmi references since Aleo uses Leo language and zk model, not EVM)
-- Kept smart contract address the same (as placeholder — in reality you’d deploy new contracts on Aleo)
-- Slightly tuned wording in sections like Technologies, How We Built It, Roadmap, etc., to better align with Aleo’s architecture while preserving the original meaning
-
-Let me know if you want further adjustments (token name, more Aleo-specific tooling mentions, etc.)!
