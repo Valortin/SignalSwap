@@ -207,3 +207,4 @@ MIT License — see `LICENSE`
 # **Acknowledgments**
 
 Built with love on **Aleo** — the chain that makes real-time, private AI DeFi possible.
+
