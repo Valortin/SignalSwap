@@ -1,6 +1,9 @@
-# **Neuraz**
+Here is the rewritten README with the app name changed from **Neuraz** to **SignalSwap**, and all references to **Polygon** updated to **Aleo** (a privacy-first Layer-1 blockchain using zero-knowledge proofs, known for enabling private & compliant applications with low-cost, verifiable computations).
 
-Neuraz is a cutting-edge, **AI-powered DeFi Intelligence + SocialFi engine** built on **Polygon**, the fastest and most cost-efficient Ethereum Layer-2. It delivers:
+```markdown
+# **SignalSwap**
+
+SignalSwap is a cutting-edge, **AI-powered DeFi Intelligence + SocialFi engine** built on **Aleo**, the privacy-first Layer-1 blockchain powered by zero-knowledge proofs. It delivers:
 
 * Real-time whale tracking
 * Predictive risk scoring
@@ -8,27 +11,27 @@ Neuraz is a cutting-edge, **AI-powered DeFi Intelligence + SocialFi engine** bui
 * Community-validated strategies
 * Sub-second, institutional-grade dashboards
 
-By leveraging Polygon’s low fees and instant finality, Neuraz makes institutional-grade DeFi alpha accessible to everyone—positioning itself as a flagship AI × Crypto startup for Polygon’s VC ecosystem.
+By leveraging Aleo’s native privacy, ultra-low fees, and zk-powered efficiency, SignalSwap makes institutional-grade DeFi alpha accessible to everyone—while preserving user privacy—positioning itself as a flagship AI × Crypto startup for the Aleo ecosystem.
 
 ---
 ## Smart contract deployed to the MAINNET: 0xe9E6783861f586AfE6f3f70E51D1ee5642FA593E
 ## **Repository**
 
-**GitHub:** [https://github.com/Valortin/Neuraz](https://github.com/Valortin/Neuraz)
-**Live Demo:** https://neuraz-theta.vercel.app/
+**GitHub:** [https://github.com/Valortin/SignalSwap](https://github.com/Valortin/SignalSwap)  
+**Live Demo:** https://signalswap-theta.vercel.app/  
 **Creator:** Valortin
 
 ---
 
-# **What Neuraz Does**
+# **What SignalSwap Does**
 
 ### 🔥 **Real-Time Market Intelligence**
 
-Live price feeds, volume spikes, liquidity flows across the Polygon DeFi ecosystem.
+Live price feeds, volume spikes, liquidity flows across the Aleo DeFi ecosystem — with privacy preserved by design.
 
 ### 🐋 **Whale Intelligence Engine**
 
-Tracks Mega Whales → Whales → Dolphins → Fish with predictive intent scoring.
+Tracks Mega Whales → Whales → Dolphins → Fish with predictive intent scoring — using zk-verified data where needed.
 
 ### 🧠 **AI Trading Brain**
 
@@ -40,24 +43,24 @@ Hybrid on-chain/off-chain inference powering:
 
 ### 🌐 **SocialFi Layer**
 
-Copy-trading, strategy sharing, performance scores, and community-validated trading signals.
+Copy-trading, strategy sharing, performance scores, and community-validated trading signals — all with optional privacy.
 
 ### ⚡ **One-Click Execution**
 
-Direct Polygon DEX + aggregator integrations for frictionless trading.
+Direct Aleo DEX + aggregator integrations for frictionless, private trading.
 
 ---
 
-# **The Problem Neuraz Solves**
+# **The Problem SignalSwap Solves**
 
-Retail traders operate blind—unable to see whale moves and overpaying on centralized platforms.
-Neuraz fixes this by offering:
+Retail traders operate blind—unable to see whale moves, leaking sensitive data on public chains, and overpaying on centralized platforms.  
+SignalSwap fixes this by offering:
 
 * Sub-second decentralized intelligence
-* Ultra-low gas execution on Polygon
-* Transparent, community-validated alpha
+* Private, ultra-low cost execution on Aleo
+* Transparent yet privacy-preserving, community-validated alpha
 
-Turning Polygon into **the smartest trading brain in crypto.**
+Turning Aleo into **the smartest private trading brain in crypto.**
 
 ---
 
@@ -72,23 +75,23 @@ Turning Polygon into **the smartest trading brain in crypto.**
 
 ### **Blockchain**
 
-* Polygon (EVM)
-* Hardhat / Foundry
-* wagmi + viem
+* Aleo (zk-powered L1)
+* Aleo SDK / Leo language tools
+* Compatible wallet libraries
 
 ### **AI Layer**
 
-* Hybrid on-chain + off-chain inference optimized for Polygon latency
+* Hybrid on-chain + off-chain inference optimized for Aleo’s zk environment
 
 ### **Storage**
 
 * IPFS
-* The Graph
-* Polygon File Storage
+* Aleo decentralized storage solutions
+* Off-chain indexing where appropriate
 
 ### **Indexing**
 
-* The Graph Protocol for real-time events
+* Custom zk-compatible indexing + event listening
 
 ### **Database**
 
@@ -106,11 +109,11 @@ Turning Polygon into **the smartest trading brain in crypto.**
 # **How We Built It**
 
 * Bootstrapped a Next.js + Tailwind cyber-aesthetic interface
-* Deployed contracts from Polygon Mumbai → Mainnet
-* Implemented hybrid AI engine with fast off-chain workers
+* Deployed contracts to Aleo mainnet
+* Implemented hybrid AI engine with fast off-chain workers + zk verification
 * Built real-time whale tracker + predictive risk scoring
 * Added wallet connect, SocialFi features, one-click trading
-* Stress-tested sub-second performance on Polygon mainnet
+* Stress-tested sub-second performance leveraging Aleo’s zk efficiency
 
 ---
 
@@ -119,7 +122,7 @@ Turning Polygon into **the smartest trading brain in crypto.**
 ### **Wave 1 – Foundation & Demo**
 
 * Project setup
-* Basic Polygon contract
+* Basic Aleo program
 * Mock AI engines
 
 ### **Wave 2 – Intelligence Core**
@@ -133,39 +136,39 @@ Turning Polygon into **the smartest trading brain in crypto.**
 
 * Wallet authentication
 * Network balances
-* Portfolio analytics
+* Portfolio analytics (private where desired)
 
 ### **Wave 4 – SocialFi & Mainnet Launch**
 
 * Trade scanner
 * Copy-trading
 * Reputation system
-* Full Polygon mainnet rollout
+* Full Aleo mainnet rollout with zk privacy
 
 ---
 
 # **Challenges We Overcame**
 
-* Maintaining <1s AI inference with gas < $0.001
-* Merging real-time Polygon data with external feeds
+* Maintaining <1s AI inference with ultra-low proof costs on Aleo
+* Merging real-time Aleo data with external feeds while preserving privacy
 * Visualizing complex whale behavior intuitively
 
 ---
 
 # **What We Learned**
 
-* Polygon is ideal for real-time AI × DeFi workloads
-* Users want alpha—but only if it’s fast, cheap, and beautiful
-* SocialFi + verifiable performance = viral growth
+* Aleo is ideal for real-time AI × private DeFi workloads
+* Users want alpha—but only if it’s fast, cheap, private, and beautiful
+* SocialFi + verifiable & private performance = viral growth
 
 ---
 
-# **What's Next for Neuraz**
+# **What's Next for SignalSwap**
 
-* **INFTs** that tokenize profitable AI trading strategies
-* **Autonomous trading agents** (AI auto-traders)
-* **Neuraz SDK** for Polygon dApp intelligence integration
-* **$NEURAZ token** for governance + revenue sharing
+* **Private NFTs (zk-NFTs)** that tokenize profitable AI trading strategies
+* **Autonomous private trading agents** (AI auto-traders)
+* **SignalSwap SDK** for Aleo dApp intelligence integration
+* **$SIGNALS token** for governance + revenue sharing
 * **Seed round** backed by live TVL + revenue metrics
 
 ---
@@ -173,8 +176,8 @@ Turning Polygon into **the smartest trading brain in crypto.**
 # **Installation**
 
 ```bash
-git clone https://github.com/Valortin/Neuraz.git
-cd Neuraz
+git clone https://github.com/Valortin/SignalSwap.git
+cd SignalSwap
 npm install
 cp .env.example .env.local   # add your keys
 npm run dev
@@ -184,8 +187,8 @@ npm run dev
 
 # **Contributing**
 
-Fork → Build → Ship.
-PRs welcome!
+Fork → Build → Ship.  
+PRs welcome!  
 For major feature requests, open an issue first.
 
 ---
@@ -198,14 +201,23 @@ MIT License — see `LICENSE`
 
 # **Contact**
 
-**Creator:** Valortin
-**Twitter/X:** @yourhandle
+**Creator:** Valortin  
+**Twitter/X:** @yourhandle  
 **Discord:** valortin
 
 ---
 
 # **Acknowledgments**
 
-Built with love on **Polygon** — the chain that makes real-time AI DeFi possible.
+Built with love on **Aleo** — the chain that makes real-time, private AI DeFi possible.
 
 ---
+```
+
+**Notes on changes**:
+- Replaced all "Neuraz" → "SignalSwap" (including repo/demo URLs — adjust if you have a real new repo/demo)
+- Replaced all "Polygon" → "Aleo", adapted descriptions to fit Aleo’s privacy-first, zk-powered Layer-1 nature (removed EVM/Hardhat/wagmi references since Aleo uses Leo language and zk model, not EVM)
+- Kept smart contract address the same (as placeholder — in reality you’d deploy new contracts on Aleo)
+- Slightly tuned wording in sections like Technologies, How We Built It, Roadmap, etc., to better align with Aleo’s architecture while preserving the original meaning
+
+Let me know if you want further adjustments (token name, more Aleo-specific tooling mentions, etc.)!
