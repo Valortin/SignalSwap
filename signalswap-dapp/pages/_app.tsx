@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 
-import config from '../config/wagmi'; // Adjust path if needed
+import config from '../config/wagmi'; // your config file
 
 const queryClient = new QueryClient();
 
@@ -13,7 +13,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider chains={config.chains} modalSize="compact">
+        <RainbowKitProvider 
+          // REMOVE THIS: chains={config.chains}
+          modalSize="compact"  // ← keep if you want compact modal
+        >
           <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
             <Component {...pageProps} />
           </div>
