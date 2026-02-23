@@ -1,126 +1,76 @@
-const {
-  time,
-  loadFixture,
-} = require("@nomicfoundation/hardhat-toolbox/network-helpers");
-const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
-const { expect } = require("chai");
+// tests/signal_swap_test.leo
+// Native Leo unit tests for signal_swap.aleo program
+// Run with: leo test
 
-describe("Lock", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshot in every test.
-  async function deployOneYearLockFixture() {
-    const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-    const ONE_GWEI = 1_000_000_000;
+import signal_swap.aleo;
 
-    const lockedAmount = ONE_GWEI;
-    const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS;
+@test
+transition test_submit_signal_success() {
+    // Hardcoded inputs (as required in Leo tests)
+    let symbol_hash_input: u128 = 123456789u128;     // e.g., hash("BTCUSDT")
+    let action_hash_input: u128 = 987654321u128;     // e.g., hash("buy")
+    let price_input: u128 = 60000u128;
 
-    // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
+    // Call the transition (simulates execution)
+    let signal_record: signal_swap.aleo/TradeSignal = signal_swap.aleo/submit_signal(
+        symbol_hash_input,
+        action_hash_input,
+        price_input
+    );
 
-    const Lock = await ethers.getContractFactory("Lock");
-    const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+    // Assert outputs / side effects (in real Leo test, check returned record fields)
+    assert_eq(signal_record.price, price_input);
+    assert_eq(signal_record.signal_id, 1u128);       // first signal → id 1
 
-    return { lock, unlockTime, lockedAmount, owner, otherAccount };
-  }
+    // Check public state after finalize (Leo test env exposes final state)
+    let last_id: u128 = signal_swap.aleo/get_last_signal_id(self.caller);
+    assert_eq(last_id, 1u128);
 
-  describe("Deployment", function () {
-    it("Should set the right unlockTime", async function () {
-      const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture);
+    let total_signals: u128 = signal_swap.aleo/get_total_signals();
+    assert_eq(total_signals, 1u128);
+}
 
-      expect(await lock.unlockTime()).to.equal(unlockTime);
-    });
+@test
+transition test_multiple_submissions_increments_id_and_total() {
+    let symbol1: u128 = 111u128;
+    let action1: u128 = 222u128;
+    let price1: u128 = 50000u128;
 
-    it("Should set the right owner", async function () {
-      const { lock, owner } = await loadFixture(deployOneYearLockFixture);
+    // First submission
+    let _ = signal_swap.aleo/submit_signal(symbol1, action1, price1);
 
-      expect(await lock.owner()).to.equal(owner.address);
-    });
+    let last_after_first: u128 = signal_swap.aleo/get_last_signal_id(self.caller);
+    assert_eq(last_after_first, 1u128);
 
-    it("Should receive and store the funds to lock", async function () {
-      const { lock, lockedAmount } = await loadFixture(
-        deployOneYearLockFixture
-      );
+    let total_after_first: u128 = signal_swap.aleo/get_total_signals();
+    assert_eq(total_after_first, 1u128);
 
-      expect(await ethers.provider.getBalance(lock.target)).to.equal(
-        lockedAmount
-      );
-    });
+    // Second submission (same caller)
+    let symbol2: u128 = 333u128;
+    let action2: u128 = 444u128;
+    let price2: u128 = 70000u128;
 
-    it("Should fail if the unlockTime is not in the future", async function () {
-      // We don't use the fixture here because we want a different deployment
-      const latestTime = await time.latest();
-      const Lock = await ethers.getContractFactory("Lock");
-      await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
-        "Unlock time should be in the future"
-      );
-    });
-  });
+    let _ = signal_swap.aleo/submit_signal(symbol2, action2, price2);
 
-  describe("Withdrawals", function () {
-    describe("Validations", function () {
-      it("Should revert with the right error if called too soon", async function () {
-        const { lock } = await loadFixture(deployOneYearLockFixture);
+    let last_after_second: u128 = signal_swap.aleo/get_last_signal_id(self.caller);
+    assert_eq(last_after_second, 2u128);
 
-        await expect(lock.withdraw()).to.be.revertedWith(
-          "You can't withdraw yet"
-        );
-      });
+    let total_after_second: u128 = signal_swap.aleo/get_total_signals();
+    assert_eq(total_after_second, 2u128);
+}
 
-      it("Should revert with the right error if called from another account", async function () {
-        const { lock, unlockTime, otherAccount } = await loadFixture(
-          deployOneYearLockFixture
-        );
+@test
+@should_fail
+transition test_submit_with_zero_price_should_fail() {
+    // Assuming we add a check in the program (recommended):
+    // In submit_signal transition: assert(price > 0u128);
 
-        // We can increase the time in Hardhat Network
-        await time.increaseTo(unlockTime);
+    let symbol: u128 = 555u128;
+    let action: u128 = 666u128;
+    let price_zero: u128 = 0u128;
 
-        // We use lock.connect() to send a transaction from another account
-        await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
-          "You aren't the owner"
-        );
-      });
+    // This should fail assertion if check is added
+    let _ = signal_swap.aleo/submit_signal(symbol, action, price_zero);
+}
 
-      it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
-        const { lock, unlockTime } = await loadFixture(
-          deployOneYearLockFixture
-        );
-
-        // Transactions are sent using the first signer by default
-        await time.increaseTo(unlockTime);
-
-        await expect(lock.withdraw()).not.to.be.reverted;
-      });
-    });
-
-    describe("Events", function () {
-      it("Should emit an event on withdrawals", async function () {
-        const { lock, unlockTime, lockedAmount } = await loadFixture(
-          deployOneYearLockFixture
-        );
-
-        await time.increaseTo(unlockTime);
-
-        await expect(lock.withdraw())
-          .to.emit(lock, "Withdrawal")
-          .withArgs(lockedAmount, anyValue); // We accept any value as `when` arg
-      });
-    });
-
-    describe("Transfers", function () {
-      it("Should transfer the funds to the owner", async function () {
-        const { lock, unlockTime, lockedAmount, owner } = await loadFixture(
-          deployOneYearLockFixture
-        );
-
-        await time.increaseTo(unlockTime);
-
-        await expect(lock.withdraw()).to.changeEtherBalances(
-          [owner, lock],
-          [lockedAmount, -lockedAmount]
-        );
-      });
-    });
-  });
-});
+// Optional: Test invalid action/symbol if you add enum-like checks later
