@@ -1,7 +1,3 @@
-// scripts/deploy.js
-// Deploys the signal_swap.aleo program to Aleo mainnet (or testnet) using Provable SDK
-// Requires: npm install @provablehq/sdk
-
 import {
   Account,
   AleoNetworkClient,
@@ -11,46 +7,33 @@ import {
   initThreadPool,
 } from "@provablehq/sdk";
 
-// For mainnet - adjust endpoint if needed (check https://developer.aleo.org for latest RPC)
-const MAINNET_RPC = "https://api.explorer.aleo.org/v1"; // Official explorer API (mainnet)
-
-// For local dev or testnet, use e.g. "http://localhost:3030" or testnet RPC
-
-// IMPORTANT: Load your private key from .env (never commit it!)
-// Example: process.env.PRIVATE_KEY = "APrivateKey1..."
+const MAINNET_RPC = "https://api.explorer.aleo.org/v1";
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 if (!PRIVATE_KEY) {
-  throw new Error("PRIVATE_KEY not set in .env");
+  throw new Error("PRIVATE_KEY not set in environment");
 }
 
 async function main() {
-  // Initialize thread pool (required for zk computations)
   await initThreadPool();
 
-  // Create account from private key
   const account = new Account({ privateKey: PRIVATE_KEY });
   console.log("Deploying with account:", account.address().to_string());
 
-  // Setup providers
   const keyProvider = new AleoKeyProvider();
   keyProvider.useCache(true);
 
   const networkClient = new AleoNetworkClient(MAINNET_RPC);
   const recordProvider = new NetworkRecordProvider(account, networkClient);
 
-  // ProgramManager orchestrates deployment
   const programManager = new ProgramManager(
     MAINNET_RPC,
     keyProvider,
     recordProvider
   );
+
   programManager.setAccount(account);
 
-  // Read the compiled program string (in production, compile first with Leo CLI)
-  // For simplicity, we paste the full program source here.
-  // In real workflows → use fs.readFileSync('programs/signal_swap.aleo', 'utf8')
-  // or compile to .aleo format and load the built program.
   const programSource = `
 program signal_swap.aleo {
 
@@ -75,7 +58,7 @@ program signal_swap.aleo {
         let current_id: u128 = Mapping::get_or_use(last_signal_id, caller, 0u128);
         let new_id: u128 = current_id + 1u128;
 
-        let new_signal: TradeSignal = TradeSignal {
+        let signal: TradeSignal = TradeSignal {
             owner: caller,
             symbol_hash: symbol_hash,
             action_hash: action_hash,
@@ -84,14 +67,16 @@ program signal_swap.aleo {
             signal_id: new_id,
         };
 
-        new_signal
+        signal
             finalize update_counters(caller, new_id)
     }
 
     finalize update_counters(caller: address, new_id: u128) {
         Mapping::set(last_signal_id, caller, new_id);
+
         let key_total: u128 = 0u128;
         let current_total: u128 = Mapping::get_or_use(global_stats, key_total, 0u128);
+
         Mapping::set(global_stats, key_total, current_total + 1u128);
     }
 
@@ -106,38 +91,38 @@ program signal_swap.aleo {
 }
   `.trim();
 
-  // Deployment fee in microcredits (Aleo credits) - adjust based on program size/complexity
-  // Typical range: 1_000_000 to 10_000_000 microcredits (0.001 to 0.01 ALEO)
-  const feeMicro = 5_000_000n; // 0.005 ALEO - example; monitor network fees
+  const feeMicro = 5_000_000n;
 
-  console.log("Deploying signal_swap.aleo program...");
+  console.log("Deploying signal_swap.aleo...");
 
   try {
-    // Deploy the program (builds + broadcasts the deployment transaction)
-    const transactionId = await programManager.deploy(
+    const txId = await programManager.deploy(
       programSource,
       feeMicro,
-      false // private = false → deployment is public
+      false
     );
 
-    console.log(`Deployment transaction sent! Transaction ID: ${transactionId}`);
-
-    // Optional: Wait for confirmation (poll the network)
+    console.log("Deployment transaction sent:", txId);
     console.log("Waiting for confirmation...");
-    const transaction = await networkClient.getTransaction(transactionId);
-    if (transaction) {
-      console.log("Deployment confirmed!");
-      console.log("Program ID / deployment details:", transaction);
+
+    const tx = await networkClient.getTransaction(txId);
+
+    if (tx) {
+      console.log("Deployment confirmed");
+      console.log("Transaction details:", tx);
     } else {
-      console.log("Transaction not yet confirmed. Check explorer: https://explorer.aleo.org/transaction/" + transactionId);
+      console.log(
+        "Not yet confirmed. Check explorer:",
+        `https://explorer.aleo.org/transaction/${txId}`
+      );
     }
-  } catch (error) {
-    console.error("Deployment failed:", error);
+  } catch (err) {
+    console.error("Deployment failed:", err);
     process.exit(1);
   }
 }
 
-main().catch((error) => {
-  console.error(error);
+main().catch((err) => {
+  console.error(err);
   process.exit(1);
 });
